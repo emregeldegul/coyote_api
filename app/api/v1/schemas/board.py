@@ -22,6 +22,7 @@ class BoardDetailOut(BoardIn, BaseOutModel):
 
 
 class BoardUpdateIn(BoardIn):
+    name: Optional[str] = Field(title="Board Name", description="Name of the board", max_length=100)  # type: ignore
     status: BoardStatus = Field(title="Board Status")
 
 

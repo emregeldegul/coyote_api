@@ -20,5 +20,5 @@ class PasswordResetIn(BaseModel):
 
 
 class EmailVerificationIn(BaseModel):
-    email: EmailStr = Field("E-Mail", description="The e-mail address to be activated")
+    email: EmailStr = Field(title="E-Mail", description="The e-mail address to be activated")
     code: str = Field(title="Verification Code", description="Email verification code")

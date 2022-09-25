@@ -9,7 +9,7 @@ class Settings:
 
     # Base Settings
     SECRET_KEY = getenv("SECRET_KEY", "MercanBirSahildeymisGemilerBulmakKasvetliGunlereKaldi")
-    EMAIL_VERIFICATION_EXP_TIME = getenv("EMAIL_VERIFICATION_EXP_TIME", 5)  # Minute
+    EMAIL_VERIFICATION_EXP_TIME = getenv("EMAIL_VERIFICATION_EXP_TIME", 5 * 60)  # Minute
     VERIFICATION_CODE_LENGTH = getenv("VERIFICATION_CODE_LENGTH", 6)
     DEVELOPER_MODE = getenv("DEVELOPER_MODE", True)
     DEVELOPER_MODE_TEST_CODE = getenv("DEVELOPER_MODE_TEST_CODE", "123456")  # Length size -> "VERIFICATION_CODE_LENGTH"

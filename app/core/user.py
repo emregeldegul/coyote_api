@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from fastapi import HTTPException, status
 from fastapi.encoders import jsonable_encoder
@@ -80,6 +80,9 @@ class UserCore:
         user.email = email
         user.email_verification = email_verification
         user.email_verification_code = email_verification_code
+        user.email_verification_code_exp_date = datetime.now() + timedelta(
+            seconds=settings.EMAIL_VERIFICATION_EXP_TIME  # type: ignore
+        )
         user.password_hash = self.hash_helper.get_password_hash(password)
         user.status = user_status
 

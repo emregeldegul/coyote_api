@@ -41,6 +41,8 @@ class TaskCore:
                 receivers=card.email,
             )
 
+        return {"message": "İşlem tamamlandı"}
+
     def card_finish_reminder(self):
         now = datetime.now()
         check_cards = (
@@ -71,3 +73,5 @@ class TaskCore:
                 subject="Hatırlatma",
                 receivers=card.email,
             )
+
+        return {"message": "İşlem tamamlandı"}
