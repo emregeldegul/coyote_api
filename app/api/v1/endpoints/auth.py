@@ -1,14 +1,18 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import EmailStr
+from sqlalchemy.orm import Session
 
+from app.api.v1.schemas import MessageOut
+from app.api.v1.schemas.auth import (
+    EmailVerificationIn,
+    LoginOut,
+    PasswordResetIn,
+    RegisterIn,
+)
 from app.core.auth import AuthCore
 from app.core.user import UserCore
-from app.api.v1.schemas import MessageOut
 from app.db.database import get_db
-from app.api.v1.schemas.auth import RegisterIn, LoginOut, PasswordResetIn, EmailVerificationIn
-
 
 router = APIRouter()
 
@@ -48,9 +52,7 @@ def password_reset(
     db: Session = Depends(get_db),
 ):
     return AuthCore(db).user_password_reset(
-        email=reset_schema.email,
-        code=reset_schema.code,
-        new_password=reset_schema.password
+        email=reset_schema.email, code=reset_schema.code, new_password=reset_schema.password
     )
 
 

@@ -1,19 +1,27 @@
-from typing import List, Optional
+from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
 from fastapi_pagination import Page
+from sqlalchemy.orm import Session
 
+from app.api.v1.dependencies import get_current_active_user
+from app.api.v1.schemas import MessageOut, MessageOutWithID
+from app.api.v1.schemas.board import (
+    BoardDetailOut,
+    BoardIn,
+    BoardOut,
+    BoardUpdateIn,
+    BoardUserOut,
+    CardIn,
+    CardOut,
+    CardUpdateIn,
+)
 from app.core.board import BoardCore
 from app.core.user import UserCore
-from app.api.v1.schemas import MessageOut, MessageOutWithID
-from app.api.v1.schemas.board import BoardIn, BoardOut, BoardDetailOut, BoardUpdateIn, BoardUserOut, CardIn, CardOut, CardUpdateIn
 from app.db.database import get_db
-from app.models.user import User
-from app.api.v1.dependencies import get_current_active_user
-from app.models.enums.board import UserRoleType
 from app.helpers.error_helper import ErrorCode as errors
-from app.models.enums.board import BoardStatus
+from app.models.enums.board import BoardStatus, UserRoleType
+from app.models.user import User
 
 router = APIRouter()
 
@@ -24,14 +32,12 @@ def create_board(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
 ):
-    return BoardCore(db).create_board(
-        user=current_user,
-        name=create_schema.name,
-        description=create_schema.description
-    )
+    return BoardCore(db).create_board(user=current_user, name=create_schema.name, description=create_schema.description)
 
 
-@router.get("/", response_model=Page[BoardOut], summary="List the boards where the current user is a member or an owner")
+@router.get(
+    "/", response_model=Page[BoardOut], summary="List the boards where the current user is a member or an owner"
+)
 def get_all_boards(
     search: Optional[str] = None,
     role: Optional[UserRoleType] = None,
@@ -41,14 +47,16 @@ def get_all_boards(
     return BoardCore(db).get_all_boards(user=current_user, search=search, role=role)
 
 
-@router.get("/{board_id}", response_model=BoardDetailOut, summary="View board details where current user is a member or owner")
+@router.get(
+    "/{board_id}", response_model=BoardDetailOut, summary="View board details where current user is a member or owner"
+)
 def get_board_detail(
     board_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user),
 ):
     check_board = BoardCore(db).get_board_by_id(board_id=board_id)
-    check_board_member = BoardCore(db).check_board_member(board=check_board, user=current_user)
+    check_board_member = BoardCore(db).check_board_member(board=check_board, user=current_user)  # noqa
 
     return BoardCore(db).get_board_detail(board_id=check_board.id)
 
@@ -183,7 +191,7 @@ def create_card(
     current_user: User = Depends(get_current_active_user),
 ):
     board = BoardCore(db).get_board_by_id(board_id=board_id, board_status=[BoardStatus.active])
-    board_member = BoardCore(db).check_board_member(board=board, user=current_user)
+    board_member = BoardCore(db).check_board_member(board=board, user=current_user)  # noqa
 
     return BoardCore(db).create_card(board=board, owner=current_user, create_schema=create_schema)
 
@@ -195,7 +203,7 @@ def get_all_cards(
     current_user: User = Depends(get_current_active_user),
 ):
     board = BoardCore(db).get_board_by_id(board_id=board_id)
-    board_member = BoardCore(db).check_board_member(board=board, user=current_user)
+    board_member = BoardCore(db).check_board_member(board=board, user=current_user)  # noqa
 
     return BoardCore(db).get_all_cards(board=board)
 
@@ -208,7 +216,7 @@ def get_card_detail(
     current_user: User = Depends(get_current_active_user),
 ):
     board = BoardCore(db).get_board_by_id(board_id=board_id)
-    board_member = BoardCore(db).check_board_member(board=board, user=current_user)
+    board_member = BoardCore(db).check_board_member(board=board, user=current_user)  # noqa
 
     return BoardCore(db).get_card_detail(board=board, card_id=card_id)
 
@@ -225,7 +233,7 @@ def update_card(
     Only the owners of the board can update the card
     """
     board = BoardCore(db).get_board_by_id(board_id=board_id)
-    board_member = BoardCore(db).check_board_member(board=board, user=current_user)
+    board_member = BoardCore(db).check_board_member(board=board, user=current_user)  # noqa
     card = BoardCore(db).get_card_by_id(board=board, card_id=card_id)
     return BoardCore(db).update_card(card=card, update_schema=update_schema)
 
@@ -241,6 +249,6 @@ def delete_card(
     Only the owners of the board can delete a member
     """
     board = BoardCore(db).get_board_by_id(board_id=board_id)
-    board_member = BoardCore(db).check_board_member(board=board, user=current_user)
+    board_member = BoardCore(db).check_board_member(board=board, user=current_user)  # noqa
     card = BoardCore(db).get_card_by_id(board=board, card_id=card_id)
     return BoardCore(db).delete_card(card=card)

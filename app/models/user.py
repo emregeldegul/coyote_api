@@ -1,12 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import (
-    Boolean,
-    Column,
-    DateTime,
-    Enum,
-    String,
-)
+from sqlalchemy import Boolean, Column, DateTime, Enum, String
 from sqlalchemy.orm import column_property
 
 from app.models.base import BaseModel

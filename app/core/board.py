@@ -1,16 +1,15 @@
 from fastapi import HTTPException, status
-from fastapi_pagination.ext.sqlalchemy import paginate as sqlalchemy_paginate
-from fastapi_pagination import paginate as array_paginate
 from fastapi.encoders import jsonable_encoder
+from fastapi_pagination import paginate as array_paginate  # noqa
+from fastapi_pagination.ext.sqlalchemy import paginate as sqlalchemy_paginate
 
-from app.models.user import User
-from app.models.board import Board, BoardUser, Card
-from app.models.enums.board import UserRoleType
-from app.models.enums import State, Status
-from app.models.enums.board import BoardStatus
-from app.helpers.error_helper import ErrorCode as errors
 from app.api.v1.schemas.board import BoardUpdateIn, CardIn, CardUpdateIn
 from app.core.user import UserCore
+from app.helpers.error_helper import ErrorCode as errors
+from app.models.board import Board, BoardUser, Card
+from app.models.enums import State, Status
+from app.models.enums.board import BoardStatus, UserRoleType
+from app.models.user import User
 
 
 class BoardCore:
@@ -72,14 +71,10 @@ class BoardCore:
             BoardUser.board_id == board.id,
             BoardUser.user_id == user.id,
             BoardUser.status == State.approved,
-            BoardUser.role.in_(role)
+            BoardUser.role.in_(role),
         ]
 
-        board_user = (
-            self.db.query(BoardUser)
-            .filter(*filter_array)
-            .first()
-        )
+        board_user = self.db.query(BoardUser).filter(*filter_array).first()
 
         if not board_user and show_error:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=errors.user_not_member_the_board)
@@ -237,11 +232,7 @@ class BoardCore:
         return {"message": "Kart başarıyla oluşturuldu", "id": card.id}
 
     def get_all_cards(self, board: Board):
-        cards = (
-            self.db.query(Card)
-            .filter(Card.board_id == board.id)
-            .filter(Card.status == Status.active)
-        )
+        cards = self.db.query(Card).filter(Card.board_id == board.id).filter(Card.status == Status.active)
 
         return sqlalchemy_paginate(cards)
 

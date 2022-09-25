@@ -1,9 +1,9 @@
 from datetime import datetime
 
-from app.models.board import Board, Card
-from app.models.user import User
-from app.models.enums.board import CardState, BoardStatus
 from app.helpers.email_helper import send_template_mail
+from app.models.board import Board, Card
+from app.models.enums.board import BoardStatus, CardState
+from app.models.user import User
 
 
 class TaskCore:

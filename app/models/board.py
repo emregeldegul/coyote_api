@@ -1,16 +1,8 @@
-from sqlalchemy import (
-    Integer,
-    Column,
-    DateTime,
-    Enum,
-    String,
-    Text,
-    ForeignKey,
-)
+from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, Text
 
 from app.models.base import BaseModel
+from app.models.enums import State, Status
 from app.models.enums.board import BoardStatus, CardState, UserRoleType
-from app.models.enums import Status, State
 
 
 class Board(BaseModel):

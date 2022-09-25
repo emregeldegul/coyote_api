@@ -36,7 +36,7 @@ class Settings:
             server_name=POSTGRESQL_SERVER_NAME,
             server_port=POSTGRESQL_SERVER_PORT,
             database_name=POSTGRESQL_DATABASE_NAME,
-        )
+        ),
     )
 
     # Redis Settings

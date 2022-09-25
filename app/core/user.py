@@ -1,16 +1,16 @@
 from datetime import datetime
 
-from fastapi import status, HTTPException
+from fastapi import HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from pydantic import EmailStr
 
-from settings import settings
-from app.models.user import User
-from app.models.enums import Status
+from app.helpers.email_helper import send_template_mail
 from app.helpers.error_helper import ErrorCode as errors
 from app.helpers.hash_helper import HashHelper
 from app.helpers.string_helper import generate_verification_code
-from app.helpers.email_helper import send_template_mail
+from app.models.enums import Status
+from app.models.user import User
+from settings import settings
 
 
 class UserCore:

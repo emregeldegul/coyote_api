@@ -4,13 +4,12 @@ from fastapi import HTTPException, status
 from pydantic import EmailStr
 
 from app.core.user import UserCore
-from app.helpers.hash_helper import HashHelper
-from app.models.enums import Status
-from app.helpers.error_helper import ErrorCode as errors
-from app.helpers.token_helper import create_access_token
-from settings import settings
-from app.models.user import User
 from app.helpers.email_helper import send_template_mail
+from app.helpers.error_helper import ErrorCode as errors
+from app.helpers.hash_helper import HashHelper
+from app.helpers.token_helper import create_access_token
+from app.models.enums import Status
+from settings import settings
 
 
 class AuthCore:
@@ -25,8 +24,9 @@ class AuthCore:
         user = UserCore(self.db).get_user_by_email(email)
 
         if not user.email_verification_code_exp_date > datetime.now():
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                                detail=errors.invalid_email_verification_exp_date)
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail=errors.invalid_email_verification_exp_date
+            )
 
         if not user.email_verification_code == code:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=errors.invalid_email_verification_code)
@@ -34,9 +34,8 @@ class AuthCore:
         return user
 
     def login_user(self, email: EmailStr, password: str) -> dict:
-        user = (
-            UserCore(self.db)
-            .get_user_by_email(email=email, user_status=[Status.active, Status.passive], show_error=False)
+        user = UserCore(self.db).get_user_by_email(
+            email=email, user_status=[Status.active, Status.passive], show_error=False
         )
 
         if not user or not self.hash_helper.verify_password(user.password_hash, password):
@@ -61,7 +60,9 @@ class AuthCore:
 
         email_verification_code = UserCore(self.db)._generate_verification_code()  # noqa
         user.email_verification_code = email_verification_code
-        user.email_verification_code_exp_date = datetime.now() + timedelta(seconds=settings.EMAIL_VERIFICATION_EXP_TIME)
+        user.email_verification_code_exp_date = datetime.now() + timedelta(
+            seconds=settings.EMAIL_VERIFICATION_EXP_TIME  # type: ignore
+        )
 
         self.db.commit()
 

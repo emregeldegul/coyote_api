@@ -2,8 +2,8 @@ from traceback import print_exc
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from starlette.exceptions import HTTPException
 from fastapi_pagination import add_pagination
+from starlette.exceptions import HTTPException
 
 from app.api.v1.endpoints import api_router
 from settings import settings
@@ -11,11 +11,7 @@ from settings import settings
 api = FastAPI(
     title=settings.APP_NAME,
     version=settings.API_VERSION,
-    contact={
-        "name": settings.AUTHOR_NAME,
-        "url": settings.AUTHOR_URL,
-        "email": settings.AUTHOR_EMAIL
-    },
+    contact={"name": settings.AUTHOR_NAME, "url": settings.AUTHOR_URL, "email": settings.AUTHOR_EMAIL},
 )
 
 api.include_router(api_router)

@@ -1,16 +1,15 @@
 import smtplib
-
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from jinja2 import Environment, PackageLoader
 
-from settings import settings
 from app.worker import celery_app
+from settings import settings
 
 
 @celery_app.task(name="send_email")
-def send_mail(subject, receivers, body) -> bool:
+def send_mail(subject, receivers, body):
     try:
         message = MIMEMultipart("alternative")
         message["Subject"] = subject
@@ -39,5 +38,3 @@ def send_template_mail(template_path: str, template_vars: dict, subject: str, re
     send_mail.delay(subject, receivers, html)
 
     return True
-
-

@@ -1,10 +1,10 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import Field, BaseModel, PositiveInt
+from pydantic import BaseModel, Field, PositiveInt
 
 from app.api.v1.schemas import BaseOutModel
-from app.models.enums.board import BoardStatus, UserRoleType, CardState
+from app.models.enums.board import BoardStatus, CardState, UserRoleType
 
 
 class BoardIn(BaseModel):
@@ -35,20 +35,23 @@ class BoardUserOut(BaseOutModel):
 
 
 class CardIn(BaseModel):
-    assignment_id: Optional[PositiveInt] = Field(None, title="Assignment", description="The user to whom the card is assigned")
+    assignment_id: Optional[PositiveInt] = Field(
+        None, title="Assignment", description="The user to whom the card is assigned"
+    )
     title: str = Field(title="Card Title", description="Title of the card", max_length=150)
     content: Optional[str] = Field(title="Card Content", description="Content of the card")
     estimated_start: Optional[datetime] = Field(title="Estimated Start", description="Estimated start date of the card")
-    estimated_finish: Optional[datetime] = Field(title="Estimated Finish", description="Estimated completion date of the card")
+    estimated_finish: Optional[datetime] = Field(
+        title="Estimated Finish", description="Estimated completion date of the card"
+    )
     finish_date: Optional[datetime] = Field(title="Estimated Finish", description="Completion date of the card")
     state: Optional[CardState] = Field(title="Card State", description="Current status of the card")
 
 
 class CardUpdateIn(CardIn):
-    title: Optional[str] = Field(title="Card Title", description="Title of the card", max_length=150)
+    title: Optional[str] = Field(title="Card Title", description="Title of the card", max_length=150)  # type: ignore
 
 
 class CardOut(CardIn, BaseOutModel):
     class Config:
         orm_mode = True
-
