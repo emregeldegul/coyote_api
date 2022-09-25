@@ -1,6 +1,6 @@
 # Coyote: Basit Pano Uygulaması
 Coyote, basit bir task yönetim uygulamasıdır. Yakın süreçte Jiraya rakip olması beklenmektedir. İsmini Road Runner çizgi filmindeki çakaldan alır.
-Geliştiricisi ile irtibata geçmek için lütfen aşağıdaki bilgileri kullanabilirsiniz.
+Geliştiricisi ile irtibata geçmek için aşağıdaki bilgileri kullanabilirsiniz.
 
 ```text
 Core Developer: Yunus Emre Geldegül
