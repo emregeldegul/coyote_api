@@ -69,7 +69,11 @@ Proje dizininde iken Celery worker çalıştırılmalıdır.
 Her geliştirmeden sonra, commit atmadan hemen önce kod kalite ve test için pre-commit scripti çalıştırılmalıdır. Böylece kodlar PEP8 standartları ile uyumlu olarak projeye dahil olur.
 
 `~$ pre-commit run --all-files`
-## Proje Yapısı
+
+## Developer Modu
+Proje geliştirme & test aşamasında iken daha rahat çalışılabilmesi için developer mod aktif hale getirilebilir.
+Proje ayarlarına `DEVELOPER_MODE=True` girilerek mod aktifleştirilebilir.
+Mod aktifleştirildikten sonra SMS, Email gibi servisler çalışmayacaktır. Doğrulama kodu kodlar (ayarlardan değiştirilmediği sürece) "123456" varsayılan kodunu kabul edecektir.
 
 ## Veri Tabanı (Model) Yapısı
 Genel olarak `app/models/base.py` içerisinde ki base model kullanılabilir. 

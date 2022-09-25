@@ -10,6 +10,9 @@ from settings import settings
 
 @celery_app.task(name="send_email")
 def send_mail(subject, receivers, body):
+    if settings.DEVELOPER_MODE:
+        return True
+
     try:
         message = MIMEMultipart("alternative")
         message["Subject"] = subject
