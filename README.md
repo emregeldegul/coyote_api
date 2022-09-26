@@ -4,8 +4,7 @@ Geliştiricisi ile irtibata geçmek için aşağıdaki bilgileri kullanabilirsin
 
 ```text
 Core Developer: Yunus Emre Geldegül
-E-Mail: yunusemregeldegul@gmail.com
-Phone: +90 (541) 661 56 29
+E-Mail: yunusemregeldegul [at] gmail.com
 ```
 
 ## Proje Gereksinimleri
