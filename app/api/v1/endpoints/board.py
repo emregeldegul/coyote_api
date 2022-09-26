@@ -69,7 +69,7 @@ def update_board(
     current_user: User = Depends(get_current_active_user),
 ):
     """
-    Only the owners of the add can update board
+    Only the owners of the add can update board. Only the given fields will be updated
     """
     board = BoardCore(db).get_board_by_id(board_id)
     board_member = BoardCore(db).check_board_member(
@@ -230,7 +230,7 @@ def update_card(
     current_user: User = Depends(get_current_active_user),
 ):
     """
-    Only the owners of the board can update the card
+    Only the owners of the board can update the card. Only the given fields will be updated.
     """
     board = BoardCore(db).get_board_by_id(board_id=board_id)
     board_member = BoardCore(db).check_board_member(board=board, user=current_user)  # noqa
