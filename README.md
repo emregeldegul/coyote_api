@@ -22,6 +22,8 @@ Proje içerisindeki bütün ayarlar (Veri tabanı ayarları, proje ismi vs.) 3 �
 * ``.env`` dosyası içerisine key-value (`AYAR_ADI = AYAR_DEGERI`) eklenebilir. -> ÖNERİLEN.
 * System Environment Variables içerisinde eklenebilir.
 
+Not: Sadece API ve APP sürümlerinin hard-code olarak değiştirilmesi önerilir. Geri kalan ayarlar environment variables ile sağlıklı bir şekilde değiştirilebilir.
+
 Veri tabanı ve mail sunucusu gibi önemli ayarlar girildikten sonra proje kurulumu yapılabilir.
 Sanal ortam kurulumu yapıldıktan sontan `requirements.txt` dosyası içerisindeki bağımlıklar yüklenmelidir.
 Daha sonra migrationlar çalıştırılarak veri tabanı geçişleri sağlanmalıdır.
